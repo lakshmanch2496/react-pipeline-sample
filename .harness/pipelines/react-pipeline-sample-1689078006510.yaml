@@ -6,9 +6,9 @@ pipeline:
   properties:
     ci:
       codebase:
-        build: <+input>
         connectorRef: account.Github_OAuth_1688732447550
         repoName: lakshmanch2496/react-pipeline-sample
+        build: <+input>
   stages:
     - stage:
         identifier: build
@@ -19,9 +19,10 @@ pipeline:
             steps:
               - step:
                   identifier: npminstall
-                  name: npm_install
+                  name: build app
                   spec:
-                    command: npm install
+                    shell: Sh
+                    command: npm run build
                   timeout: ""
                   type: Run
               - step:
@@ -35,7 +36,8 @@ pipeline:
                   identifier: dockerbuild
                   name: docker_build
                   spec:
-                    image: plugins/docker
+                    connectorRef: <+input>
+                    image: <+input>
                     settings:
                       dry_run: "true"
                       repo: hello/world
